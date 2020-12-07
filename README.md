@@ -32,3 +32,6 @@ Don't worry, just make it your own!
 
 # Project status
 In development stage
+
+# Credits
+@Udacity for the front end
