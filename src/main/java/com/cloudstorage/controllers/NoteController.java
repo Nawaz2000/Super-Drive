@@ -30,15 +30,15 @@ public class NoteController {
 		Users user = userService.getUser(auth.getName());
 		note.setUserid(user.getUserid());
 
-		if (!noteService.isNoteTitleAvailable(note.getNotetitle()))
-			model.addAttribute("error", "Note of same title already exists!");
-		else {
-			Integer x = noteService.addOrUpdateNote(note/* , auth */);
-			if (x > 0)
-				model.addAttribute("success", true);
-			else
-				model.addAttribute("success", false);
-		}
+//		if (!noteService.isNoteTitleAvailable(note.getNotetitle()))
+//			model.addAttribute("error", "Note of same title already exists!");
+//		else {
+		Integer x = noteService.addOrUpdateNote(note/* , auth */);
+		if (x > 0)
+			model.addAttribute("success", true);
+		else
+			model.addAttribute("success", false);
+//		}
 
 		return "result";
 	}

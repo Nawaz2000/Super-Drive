@@ -140,7 +140,7 @@
                                 <tr th:each="formCredential:${credentialList}">
                                     <td>
                                         <button th:onclick="showCredentialModal([[${formCredential.getCredentialid()}]], [[${formCredential.getUrl()}]],[[${formCredential.getUsername()}]],[[${formCredential.getPassword()}]])" type="button" class="btn btn-success">Edit</button>
-                                        <a th:href="@{/credentialDelete(credentialid = formCredential.credentialid)}" class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/credentialDelete(credentialid = ${formCredential.getCredentialid()})}" class="btn btn-danger">Delete</a>
                                     </td>
                                     <th th:text="${formCredential.getUrl()}" scope="row">Example Credential URL</th>
                                     <td th:text="${formCredential.getUsername()}">Example Credential Username</td>
