@@ -42,22 +42,31 @@ public class CredentialService {
 		return encryptionService.decryptValue(credential.getPassword(), credential.getKey());
 	}
 
-	public Integer addOrUpdateCredential(Credentials credential, Authentication auth) {
+	public Integer addOrUpdateCredential(Credentials currCredential, Authentication auth) {
 		Users user = userService.getUser(auth.getName());
 
 		SecureRandom random = new SecureRandom();
 		byte[] key = new byte[16];
 		random.nextBytes(key);
 		String encodedKey = Base64.getEncoder().encodeToString(key);
-		String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
-		credential.setPassword(encryptedPassword);
-		credential.setKey(encodedKey);
-		credential.setUserid(user.getUserid());
+		String encryptedPassword = "";
+//		String encryptedPassword = encryptionService.encryptValue(currCredential.getPassword(), encodedKey);
+//		currCredential.setPassword(encryptedPassword);
+//		currCredential.setKey(encodedKey);
+		currCredential.setUserid(user.getUserid());
 
-		if (credential.getCredentialid() != null) {
-			return this.credentialMapper.update(credential);
-		} else
-			return this.credentialMapper.insert(credential);
+		if (currCredential.getCredentialid() != null) {
+			Credentials prevCredential = getCredential(currCredential.getCredentialid());
+			encryptedPassword = encryptionService.encryptValue(currCredential.getPassword(), prevCredential.getKey());
+			currCredential.setKey(prevCredential.getKey());
+			currCredential.setPassword(encryptedPassword);
+			return this.credentialMapper.update(currCredential);
+		} else {
+			encryptedPassword = encryptionService.encryptValue(currCredential.getPassword(), encodedKey);
+			currCredential.setPassword(encryptedPassword);
+			currCredential.setKey(encodedKey);
+			return this.credentialMapper.insert(currCredential);
+		}
 	}
 
 	public void deleteCredential(Integer credentialid) {
