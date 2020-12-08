@@ -54,9 +54,9 @@ public class CredentialService {
 		credential.setKey(encodedKey);
 		credential.setUserid(user.getUserid());
 
-		if (credential.getCredentialid() != null)
+		if (credential.getCredentialid() != null) {
 			return this.credentialMapper.update(credential);
-		else
+		} else
 			return this.credentialMapper.insert(credential);
 	}
 
